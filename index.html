@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>To Ma'am Rizzalyn — An Appreciation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Sacramento&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+/* ══════════════════════════════════
+   TOKENS & RESET
+══════════════════════════════════ */
+:root {
+  --navy:      #0b1529;
+  --navy-mid:  #112040;
+  --navy-soft: #1a2d55;
+  --navy-glow: #1e3a70;
+  --pink:      #f2a7b8;
+  --pink-deep: #d96c84;
+  --pink-faint:#f7d5de;
+  --rose-glow: rgba(242,167,184,0.18);
+  --text-1:    #f0ecf8;
+  --text-2:    #b8c4de;
+  --text-3:    #7a8dab;
+  --gold:      #d4a853;
+  --line:      rgba(242,167,184,0.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Lora',Georgia,serif;
+  background:var(--navy);
+  color:var(--text-1);
+  overflow-x:hidden;
+}
+
+/* ══════════════════════════════════
+   LOADING SCREEN
+══════════════════════════════════ */
+#loader{
+  position:fixed;inset:0;
+  background:var(--navy);
+  z-index:9999;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:2.5rem;
+}
+#loader-quote{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(1rem,2.5vw,1.3rem);
+  color:var(--pink);
+  text-align:center;line-height:1.9;
+  max-width:420px;padding:0 2rem;
+  opacity:0;
+}
+#loader-bar-track{
+  width:min(280px,70vw);height:2px;
+  background:rgba(255,255,255,0.08);
+  border-radius:99px;overflow:hidden;
+}
+#loader-bar{height:100%;width:0%;
+  background:linear-gradient(90deg,var(--pink-deep),var(--pink));
+  border-radius:99px;transition:width .08s linear;
+}
+#loader-canvas{position:absolute;inset:0;pointer-events:none}
+
+/* ══════════════════════════════════
+   AMBIENT BACKGROUND
+══════════════════════════════════ */
+.ambient{
+  position:fixed;inset:0;
+  pointer-events:none;z-index:0;
+  overflow:hidden;
+}
+.amb-blob{
+  position:absolute;border-radius:50%;
+  filter:blur(120px);opacity:0;
+  transition:opacity 3s;
+}
+.amb-1{width:700px;height:700px;background:#1a3a6a;top:-200px;left:-200px;animation:ambDrift 18s ease-in-out infinite;}
+.amb-2{width:500px;height:500px;background:#2a1040;bottom:-150px;right:-100px;animation:ambDrift 22s ease-in-out infinite reverse;}
+.amb-3{width:400px;height:400px;background:#3a1a28;top:40%;left:50%;animation:ambDrift 15s ease-in-out infinite 4s;}
+@keyframes ambDrift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-20px) scale(1.05)}}
+
+/* ══════════════════════════════════
+   NOISE OVERLAY
+══════════════════════════════════ */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1;opacity:.5;
+}
+
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+#hero{
+  position:relative;min-height:100svh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+#hero-mountains{position:absolute;bottom:0;left:0;right:0;height:55%}
+.hero-glow{
+  position:absolute;bottom:30%;left:50%;transform:translateX(-50%);
+  width:600px;height:200px;
+  background:radial-gradient(ellipse,rgba(242,107,132,0.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+#hero-content{
+  position:relative;z-index:2;
+  text-align:center;padding:0 clamp(1.5rem,6vw,5rem);
+  max-width:950px;
+}
+.hero-eyebrow{
+  font-family:'Sacramento',cursive;
+  font-size:clamp(1.3rem,3.5vw,2rem);
+  color:var(--pink);opacity:0;
+  transform:translateY(16px);
+  margin-bottom:.8rem;
+  display:block;
+}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,7.5vw,5.5rem);
+  font-weight:700;line-height:1.12;
+  color:var(--text-1);
+  opacity:0;transform:translateY(30px);
+  margin-bottom:1.2rem;
+}
+.hero-name{
+  font-family:'Sacramento',cursive;
+  font-size:clamp(2.5rem,7vw,5rem);
+  color:var(--pink);
+  opacity:0;transform:translateY(20px);
+  margin-bottom:1.5rem;display:block;
+}
+.hero-sub{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(.95rem,2.2vw,1.25rem);
+  color:var(--text-2);line-height:1.9;
+  opacity:0;
+}
+.scroll-hint{
+  position:absolute;bottom:2.5rem;left:50%;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  opacity:0;
+}
+.scroll-hint span{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--pink);opacity:.6}
+.scroll-mouse{width:20px;height:32px;border:1.5px solid rgba(242,167,184,.4);border-radius:99px;display:flex;justify-content:center;padding-top:5px}
+.scroll-dot{width:3px;height:7px;background:var(--pink);border-radius:99px;animation:sdot 1.7s ease-in-out infinite}
+@keyframes sdot{0%,100%{transform:translateY(0);opacity:1}60%{transform:translateY(8px);opacity:.2}}
+
+/* ══════════════════════════════════
+   SHARED SECTION STYLES
+══════════════════════════════════ */
+.sec{
+  position:relative;z-index:2;
+  padding:clamp(5rem,12vw,9rem) clamp(1.5rem,6vw,5rem);
+}
+.sec-inner{max-width:820px;margin:0 auto}
+.sec-inner-wide{max-width:1060px;margin:0 auto}
+
+.sec-label{
+  font-family:'Sacramento',cursive;
+  font-size:1.25rem;color:var(--pink);
+  display:block;margin-bottom:.5rem;
+  opacity:0;
+}
+.sec-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,3.2rem);
+  font-weight:700;color:var(--text-1);
+  line-height:1.2;margin-bottom:3rem;
+  opacity:0;transform:translateY(20px);
+}
+
+hr.fancy{
+  border:none;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--line),transparent);
+  margin:0;
+}
+
+/* ══════════════════════════════════
+   WHO YOU BECAME
+══════════════════════════════════ */
+#who-section{background:transparent}
+.who-line{
+  font-family:'Lora',serif;
+  font-size:clamp(1.2rem,3vw,1.7rem);
+  color:var(--text-2);
+  line-height:1.8;text-align:center;
+  margin-bottom:1.5rem;
+  opacity:0;transform:translateX(-24px);
+  transition:color .4s;
+}
+.who-line:hover{color:var(--text-1)}
+.who-script{
+  font-family:'Sacramento',cursive;
+  font-size:clamp(1.8rem,4.5vw,3rem);
+  color:var(--pink);text-align:center;
+  line-height:1.8;
+  opacity:0;margin-top:3rem;
+}
+
+/* ══════════════════════════════════
+   TRAITS CONSTELLATION
+══════════════════════════════════ */
+#traits-section{background:linear-gradient(180deg,transparent,rgba(26,45,85,.25) 50%,transparent)}
+.traits-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.5rem;
+  margin-top:1rem;
+}
+.trait-card{
+  background:rgba(255,255,255,.028);
+  border:1px solid var(--line);
+  border-radius:1.2rem;
+  padding:2rem 1.8rem;
+  text-align:center;
+  opacity:0;transform:translateY(24px);
+  transition:background .4s,border-color .4s,transform .3s;
+  cursor:default;
+}
+.trait-card:hover{
+  background:rgba(242,167,184,.06);
+  border-color:rgba(242,167,184,.35);
+  transform:translateY(-4px);
+}
+.trait-icon{font-size:2rem;display:block;margin-bottom:1rem}
+.trait-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;color:var(--pink);
+  margin-bottom:.6rem;font-weight:600;
+}
+.trait-desc{font-size:.92rem;color:var(--text-2);line-height:1.75}
+
+/* ══════════════════════════════════
+   HEART LETTER
+══════════════════════════════════ */
+#letter-section{background:transparent}
+.letter-wrap{
+  border-left:1px solid var(--line);
+  padding-left:clamp(1.5rem,4vw,3rem);
+  max-width:680px;
+  margin:0 auto;
+}
+.letter-p{
+  font-family:'Lora',serif;
+  font-size:clamp(1.05rem,2.3vw,1.3rem);
+  color:var(--text-2);
+  line-height:2;
+  margin-bottom:2rem;
+  opacity:0;transform:translateY(18px);
+}
+.letter-script{
+  font-family:'Sacramento',cursive;
+  font-size:clamp(1.7rem,4vw,2.8rem);
+  color:var(--pink);
+  line-height:1.8;
+  text-align:center;
+  opacity:0;margin-top:3rem;
+  padding-top:2.5rem;
+  border-top:1px solid var(--line);
+}
+
+/* ══════════════════════════════════
+   TIMELINE — CLASSROOM MOMENTS
+══════════════════════════════════ */
+#timeline-section{background:linear-gradient(180deg,transparent,rgba(26,45,85,.3) 50%,transparent)}
+.timeline{
+  position:relative;
+  max-width:700px;
+  margin:0 auto;
+  padding-left:2.5rem;
+}
+.timeline::before{
+  content:'';
+  position:absolute;left:0;top:.5rem;bottom:.5rem;
+  width:1px;
+  background:linear-gradient(180deg,transparent,var(--line) 20%,var(--line) 80%,transparent);
+}
+.t-item{
+  position:relative;
+  margin-bottom:3.5rem;
+  opacity:0;transform:translateX(-20px);
+}
+.t-item::before{
+  content:'';
+  position:absolute;left:-2.5rem;top:.45rem;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--pink-deep);
+  box-shadow:0 0 10px rgba(217,108,132,.4);
+  transform:translateX(-.3px);
+}
+.t-label{
+  font-family:'Sacramento',cursive;
+  font-size:1.1rem;color:var(--pink);
+  margin-bottom:.4rem;display:block;
+}
+.t-text{
+  font-family:'Lora',serif;
+  font-size:clamp(.95rem,2vw,1.15rem);
+  color:var(--text-2);line-height:1.85;
+}
+
+/* ══════════════════════════════════
+   OPEN WHEN — ENVELOPE CARDS
+══════════════════════════════════ */
+#open-when-section{background:linear-gradient(180deg,transparent,rgba(42,16,64,.25) 50%,transparent)}
+.ow-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:1.8rem;
+}
+
+/* The envelope wrapper */
+.envelope{
+  opacity:0;transform:translateY(30px);
+  cursor:pointer;
+  perspective:800px;
+}
+
+/* The whole envelope box */
+.env-box{
+  position:relative;
+  width:100%;
+  background: linear-gradient(145deg,#1c2e52,#16243f);
+  border:1px solid rgba(242,167,184,.22);
+  border-radius:.5rem;
+  box-shadow:0 8px 40px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.04);
+  overflow:hidden;
+  transition:box-shadow .4s, border-color .4s;
+  min-height:180px;
+}
+.envelope:hover .env-box{
+  box-shadow:0 16px 60px rgba(217,108,132,.18), 0 4px 20px rgba(0,0,0,.4);
+  border-color:rgba(242,167,184,.45);
+}
+
+/* Envelope back (bottom triangles) */
+.env-back{
+  position:absolute;inset:0;
+  pointer-events:none;
+}
+.env-back::before{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:55%;
+  background:linear-gradient(145deg,#1a2b4a,#13203a);
+  clip-path:polygon(0% 100%, 50% 0%, 100% 100%);
+  opacity:.6;
+}
+/* Side triangle folds */
+.env-back::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:55%;
+  background:linear-gradient(145deg,rgba(242,167,184,.04),transparent);
+  clip-path:polygon(0% 0%, 0% 100%, 45% 50%);
+}
+.env-side-right{
+  position:absolute;
+  bottom:0;left:0;right:0;height:55%;
+  clip-path:polygon(100% 0%, 100% 100%, 55% 50%);
+  background:linear-gradient(225deg,rgba(242,167,184,.06),transparent);
+  pointer-events:none;
+}
+
+/* The envelope flap (top fold) */
+.env-flap{
+  position:absolute;
+  top:0;left:0;right:0;
+  height:48%;
+  background:linear-gradient(160deg,#1f3260,#1a2950);
+  clip-path:polygon(0% 0%, 100% 0%, 50% 100%);
+  border-bottom:1px solid rgba(242,167,184,.12);
+  transform-origin:top center;
+  transform:rotateX(0deg);
+  transition:transform .55s cubic-bezier(.4,0,.2,1), background .4s;
+  z-index:3;
+}
+.envelope.opened .env-flap{
+  transform:rotateX(-175deg);
+  background:linear-gradient(160deg,#1a2848,#111e38);
+}
+
+/* Wax seal on flap */
+.env-seal{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%, 30%);
+  width:34px;height:34px;
+  background:radial-gradient(circle,var(--pink-deep),#8a2038);
+  border-radius:50%;
+  border:1.5px solid rgba(242,167,184,.35);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+  box-shadow:0 2px 12px rgba(217,108,132,.4);
+  z-index:4;
+  transition:opacity .3s, transform .3s;
+}
+.envelope.opened .env-seal{
+  opacity:0;transform:translate(-50%, 30%) scale(.5);
+}
+
+/* The letter / content inside */
+.env-letter{
+  position:relative;z-index:2;
+  padding:3.5rem 1.8rem 2rem;
+  min-height:180px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.env-hint{
+  position:absolute;bottom:.9rem;right:1.2rem;
+  font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-3);opacity:.6;
+  transition:opacity .3s;
+  pointer-events:none;
+}
+.envelope.opened .env-hint{opacity:0}
+
+/* Content reveal */
+.env-content{
+  max-height:0;overflow:hidden;
+  transition:max-height .6s cubic-bezier(.4,0,.2,1), opacity .5s;
+  opacity:0;
+}
+.envelope.opened .env-content{
+  max-height:300px;
+  opacity:1;
+  transition:max-height .7s cubic-bezier(.4,0,.2,1) .2s, opacity .6s .25s;
+}
+
+.ow-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(.95rem,2.2vw,1.15rem);
+  color:var(--pink-faint);
+  font-style:italic;
+  margin-bottom:.9rem;
+  line-height:1.5;
+}
+.ow-msg{
+  font-family:'Lora',serif;
+  font-size:clamp(.88rem,1.8vw,1rem);
+  color:var(--text-2);line-height:1.9;
+}
+
+/* ══════════════════════════════════
+   WORDS YOU GAVE US
+══════════════════════════════════ */
+#words-section{background:transparent}
+.words-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.5rem;
+}
+.word-card{
+  background:rgba(255,255,255,.022);
+  border:1px solid var(--line);
+  border-radius:1.2rem;
+  padding:2rem;
+  opacity:0;transform:scale(.96);
+  transition:transform .3s,border-color .4s,background .4s;
+  text-align:center;
+}
+.word-card:hover{
+  transform:scale(1.02) translateY(-3px);
+  border-color:rgba(242,167,184,.35);
+  background:rgba(242,167,184,.05);
+}
+.word-quote{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(1rem,2.2vw,1.2rem);
+  color:var(--text-1);line-height:1.75;
+  margin-bottom:1rem;
+}
+.word-quote::before{content:'"';font-size:2.5rem;line-height:.5;vertical-align:-.4em;color:var(--pink);opacity:.5;margin-right:.2rem}
+.word-quote::after{content:'"';font-size:2.5rem;line-height:.5;vertical-align:-.4em;color:var(--pink);opacity:.5;margin-left:.2rem}
+.word-attr{font-size:.82rem;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase}
+
+/* ══════════════════════════════════
+   COLLECTIVE PROMISE
+══════════════════════════════════ */
+#promise-section{background:transparent}
+.promise-text{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.5rem,4vw,2.5rem);
+  color:var(--text-1);
+  line-height:1.7;text-align:center;
+  margin-bottom:1.2rem;
+  opacity:0;transform:translateY(20px);
+}
+.promise-text em{color:var(--pink);font-style:italic}
+
+/* ══════════════════════════════════
+   FINAL MOUNTAIN
+══════════════════════════════════ */
+#mountain-section{
+  position:relative;
+  min-height:90vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;padding:0;
+}
+.mtn-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(170deg,var(--navy-mid) 0%,#1a0d30 60%,#0d1a3a 100%);
+}
+#mtn-stars{position:absolute;inset:0;pointer-events:none}
+.mtn-star{
+  position:absolute;border-radius:50%;background:#fff;
+  animation:twinkle var(--d,2s) ease-in-out infinite var(--dd,0s);
+}
+@keyframes twinkle{0%,100%{opacity:.15}50%{opacity:1}}
+.mtn-svg{position:absolute;bottom:0;left:0;right:0;height:65%}
+.mtn-content{
+  position:relative;z-index:3;
+  text-align:center;padding:0 2rem;
+  max-width:820px;
+}
+.mtn-line-1{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(1.3rem,3.5vw,2.2rem);
+  color:var(--text-2);line-height:1.7;
+  opacity:0;transform:translateY(24px);
+  margin-bottom:1.5rem;
+}
+.mtn-line-2{
+  font-family:'Sacramento',cursive;
+  font-size:clamp(2.2rem,5.5vw,4rem);
+  color:var(--pink);line-height:1.5;
+  opacity:0;transform:translateY(24px);
+}
+
+/* ══════════════════════════════════
+   CLOSING
+══════════════════════════════════ */
+#closing-section{
+  position:relative;
+  min-height:80vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;
+  background:var(--navy);
+}
+#closing-section::before{
+  content:'';position:absolute;
+  width:800px;height:800px;
+  background:radial-gradient(ellipse,rgba(217,108,132,.07) 0%,transparent 70%);
+  border-radius:50%;
+  pointer-events:none;
+}
+.closing-inner{position:relative;z-index:2;max-width:700px;padding:0 2rem}
+.closing-p{
+  font-family:'Lora',serif;
+  font-size:clamp(1.05rem,2.5vw,1.35rem);
+  color:var(--text-2);line-height:2.1;
+  font-style:italic;
+  opacity:0;transform:translateY(20px);
+  margin-bottom:3rem;
+}
+.closing-script{
+  font-family:'Sacramento',cursive;
+  font-size:clamp(2.5rem,7vw,5rem);
+  color:var(--pink);
+  opacity:0;transform:translateY(20px);
+  line-height:1.3;
+  margin-bottom:4rem;
+  filter:drop-shadow(0 0 30px rgba(217,108,132,.25));
+}
+.farewell-btn{
+  display:inline-block;
+  padding:1.1rem 3rem;
+  border:1px solid rgba(242,167,184,.3);
+  border-radius:99px;
+  color:var(--pink-faint);
+  font-family:'Lora',serif;
+  font-size:1rem;letter-spacing:.04em;
+  text-decoration:none;
+  transition:background .4s,border-color .4s,box-shadow .4s,color .4s;
+  opacity:0;
+}
+.farewell-btn:hover{
+  background:rgba(242,167,184,.08);
+  border-color:rgba(242,167,184,.55);
+  box-shadow:0 0 40px rgba(242,107,132,.12);
+  color:var(--text-1);
+}
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer{
+  position:relative;z-index:2;
+  padding:2rem;text-align:center;
+  border-top:1px solid var(--line);
+  background:var(--navy);
+}
+footer p{font-size:.8rem;color:var(--text-3);letter-spacing:.06em}
+
+/* ══════════════════════════════════
+   UTILITIES
+══════════════════════════════════ */
+@media(max-width:600px){
+  .traits-grid,.words-grid{grid-template-columns:1fr}
+  .ow-card{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     LOADING
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div id="loader">
+  <canvas id="loader-canvas"></canvas>
+  <div id="loader-quote">
+    "Some teachers don't just teach.<br/>
+    They leave footprints on hearts."
+  </div>
+  <div id="loader-bar-track">
+    <div id="loader-bar"></div>
+  </div>
+</div>
+
+<!-- ambient blobs -->
+<div class="ambient">
+  <div class="amb-blob amb-1"></div>
+  <div class="amb-blob amb-2"></div>
+  <div class="amb-blob amb-3"></div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     HERO
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="hero">
+  <div class="hero-glow"></div>
+
+  <div id="hero-mountains">
+    <svg viewBox="0 0 1400 420" preserveAspectRatio="none" width="100%" height="100%">
+      <!-- sky gradient in svg -->
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a2d55" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#0b1529" stop-opacity="1"/>
+        </linearGradient>
+        <radialGradient id="sunGlow" cx="50%" cy="100%" r="60%">
+          <stop offset="0%" stop-color="rgba(217,108,132,.18)"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="1400" height="420" fill="url(#sunGlow)"/>
+      <!-- far mountains -->
+      <path d="M0,420 L0,280 L140,180 L280,240 L420,160 L560,210 L700,130 L840,200 L980,155 L1120,215 L1260,170 L1400,220 L1400,420 Z" fill="#162442" opacity=".5"/>
+      <!-- mid -->
+      <path d="M0,420 L0,310 L175,200 L380,280 L560,180 L780,260 L980,195 L1180,270 L1400,230 L1400,420 Z" fill="#0f1d35" opacity=".75"/>
+      <!-- front -->
+      <path d="M0,420 L0,360 L160,280 L340,340 L580,250 L780,330 L1020,255 L1250,320 L1400,285 L1400,420 Z" fill="#0b1529" opacity="1"/>
+    </svg>
+  </div>
+
+  <div id="hero-content">
+    <span class="hero-eyebrow" id="h-ey">with love and gratitude</span>
+    <h1 class="hero-title" id="h-title">To The Teacher Who<br/>Helped Us Climb Higher</h1>
+    <span class="hero-name" id="h-name">Ma'am Rizzalyn Aliwalas</span>
+    <p class="hero-sub" id="h-sub">
+      You may have only stayed for a while,<br/>
+      but your impact will stay much longer.
+    </p>
+  </div>
+
+  <div class="scroll-hint" id="scroll-hint">
+    <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<hr class="fancy"/>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     WHO YOU BECAME
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="sec" id="who-section">
+  <div class="sec-inner" style="text-align:center">
+    <span class="sec-label" id="who-lbl">in a short time…</span>
+    <h2 class="sec-title" id="who-title" style="text-align:center">You Became</h2>
+    <p class="who-line" id="wl0">The most comfortable teacher we ever had.</p>
+    <p class="who-line" id="wl1">Our kindest — <em style="color:var(--pink)">minsan</em>. 😉</p>
+    <p class="who-line" id="wl2">The one we could listen to without fear.</p>
+    <p class="who-line" id="wl3">The one who made our mistakes feel human.</p>
+    <p class="who-line" id="wl4">The one who made the classroom feel like home.</p>
+    <p class="who-line" id="wl5">The one who saw us — not just the lesson plan.</p>
+    <div class="who-script" id="who-script">
+      You didn't demand respect.<br/>
+      You earned it quietly.
+    </div>
+  </div>
+</section>
+
+<hr class="fancy"/>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     TRAITS / QUALITIES
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="sec" id="traits-section">
+  <div class="sec-inner-wide">
+    <span class="sec-label" id="traits-lbl">what made you unforgettable</span>
+    <h2 class="sec-title" id="traits-title">The Things About You</h2>
+    <div class="traits-grid">
+      <div class="trait-card" id="tc0">
+        <span class="trait-icon">🕊️</span>
+        <div class="trait-title">Gentle Authority</div>
+        <div class="trait-desc">You never needed to raise your voice to command a room. Your calm was its own kind of power.</div>
+      </div>
+      <div class="trait-card" id="tc1">
+        <span class="trait-icon">💬</span>
+        <div class="trait-title">Honest Encouragement</div>
+        <div class="trait-desc">You corrected us without crushing us. Every correction felt like an invitation to grow.</div>
+      </div>
+      <div class="trait-card" id="tc2">
+        <span class="trait-icon">📚</span>
+        <div class="trait-title">Lessons Beyond Grammar</div>
+        <div class="trait-desc">You slipped life advice between verb tenses. We didn't always notice — but we remembered.</div>
+      </div>
+      <div class="trait-card" id="tc3">
+        <span class="trait-icon">☀️</span>
+        <div class="trait-title">Warmth You Tried to Hide</div>
+        <div class="trait-desc">You acted strict. We saw through it every time. Your softness was the best-kept open secret.</div>
+      </div>
+      <div class="trait-card" id="tc4">
+        <span class="trait-icon">🌱</span>
+        <div class="trait-title">Belief in People</div>
+        <div class="trait-desc">Even when students doubted themselves, you kept the door open. That mattered more than you know.</div>
+      </div>
+      <div class="trait-card" id="tc5">
+        <span class="trait-icon">✨</span>
+        <div class="trait-title">Quiet Impact</div>
+        <div class="trait-desc">You never asked to be remembered. But you will be — in every sentence we write with care.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="fancy"/>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     HEART LETTER
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="sec" id="letter-section">
+  <div class="sec-inner">
+    <span class="sec-label" id="letter-lbl">a letter from all of us</span>
+    <h2 class="sec-title" id="letter-title">Dear Ma'am Riz,</h2>
+    <div class="letter-wrap">
+      <p class="letter-p" id="lp0">You taught us more than English.</p>
+      <p class="letter-p" id="lp1">You taught us how to speak with confidence — how to find words for the things that felt too big for words.</p>
+      <p class="letter-p" id="lp2">You corrected our grammar, but somewhere along the way, you also corrected our doubts. You made us feel like our voices were worth hearing.</p>
+      <p class="letter-p" id="lp3">Even in a short amount of time, you became someone unforgettable. Some people take years to leave a mark. You did it in a semester.</p>
+      <p class="letter-p" id="lp4">We don't know if you fully understand how much you meant to us. That's why we're writing this. So you know.</p>
+      <div class="letter-script" id="letter-script">
+        Some teachers pass through classrooms.<br/>
+        You passed through our lives.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="fancy"/>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     CLASSROOM MOMENTS — TIMELINE
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="sec" id="timeline-section">
+  <div class="sec-inner">
+    <span class="sec-label" id="timeline-lbl">things we'll never forget</span>
+    <h2 class="sec-title" id="timeline-title">Moments That Stayed</h2>
+    <div class="timeline">
+      <div class="t-item" id="ti0">
+        <span class="t-label">The Voice</span>
+        <p class="t-text">"Class, listen." — two words, and the whole room went still. You had this way of making silence feel important.</p>
+      </div>
+      <div class="t-item" id="ti1">
+        <span class="t-label">The Look</span>
+        <p class="t-text">When someone gave a completely wrong answer, your expression said everything — without saying anything. We still laugh about it.</p>
+      </div>
+      <div class="t-item" id="ti2">
+        <span class="t-label">The Tangents</span>
+        <p class="t-text">Mid-lesson, mid-sentence — you'd pause and share something real. A piece of wisdom dressed up as a side comment. Those were the parts we wrote down.</p>
+      </div>
+      <div class="t-item" id="ti3">
+        <span class="t-label">The Grace</span>
+        <p class="t-text">You never made anyone feel stupid. Not once. That's rarer than you think, and it means more than you know.</p>
+      </div>
+      <div class="t-item" id="ti4">
+        <span class="t-label">The Patience</span>
+        <p class="t-text">When we were slow, you waited. When we were loud, you smiled. You chose us — every day — even when it wasn't easy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="fancy"/>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     WORDS YOU GAVE US
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="sec" id="words-section">
+  <div class="sec-inner-wide">
+    <span class="sec-label" id="words-lbl">echoes that stay with us</span>
+    <h2 class="sec-title" id="words-title">The Things You Said That Stayed</h2>
+    <div class="words-grid">
+      <div class="word-card" id="wc0">
+        <p class="word-quote">Your words have weight. Use them well.</p>
+        <span class="word-attr">Ma'am Riz</span>
+      </div>
+      <div class="word-card" id="wc1">
+        <p class="word-quote">A mistake in grammar is forgivable. A mistake in character is not.</p>
+        <span class="word-attr">Ma'am Riz</span>
+      </div>
+      <div class="word-card" id="wc2">
+        <p class="word-quote">Speak clearly. Think clearly. They go together.</p>
+        <span class="word-attr">Ma'am Riz</span>
+      </div>
+      <div class="word-card" id="wc3">
+        <p class="word-quote">Don't be afraid to be wrong — be afraid of never trying.</p>
+        <span class="word-attr">Ma'am Riz</span>
+      </div>
+      <div class="word-card" id="wc4">
+        <p class="word-quote">You carry more potential than you realize. Carry it carefully.</p>
+        <span class="word-attr">Ma'am Riz</span>
+      </div>
+      <div class="word-card" id="wc5">
+        <p class="word-quote">Class, listen. This one is important.</p>
+        <span class="word-attr">Ma'am Riz — always</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="fancy"/>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     OPEN WHEN
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="sec" id="open-when-section">
+  <div class="sec-inner-wide">
+    <span class="sec-label" id="ow-lbl">for wherever the road takes you</span>
+    <h2 class="sec-title" id="ow-title">Open When…</h2>
+    <p style="font-family:'Lora',serif;font-style:italic;color:var(--text-3);font-size:.9rem;text-align:center;margin-top:-1.5rem;margin-bottom:2.5rem;opacity:.8">tap an envelope to open it 💌</p>
+    <div class="ow-cards">
+
+      <div class="envelope" id="ow0">
+        <div class="env-box">
+          <div class="env-back"></div>
+          <div class="env-side-right"></div>
+          <div class="env-flap">
+            <div class="env-seal">🌸</div>
+          </div>
+          <div class="env-letter">
+            <p class="ow-title">Open when you feel tired.</p>
+            <div class="env-content">
+              <p class="ow-msg">Remember that you changed more lives than you ever saw. The ones who needed it most may never have told you — but they carried your words home.</p>
+            </div>
+          </div>
+          <span class="env-hint">tap to open</span>
+        </div>
+      </div>
+
+      <div class="envelope" id="ow1">
+        <div class="env-box">
+          <div class="env-back"></div>
+          <div class="env-side-right"></div>
+          <div class="env-flap">
+            <div class="env-seal">💛</div>
+          </div>
+          <div class="env-letter">
+            <p class="ow-title">Open when you doubt yourself.</p>
+            <div class="env-content">
+              <p class="ow-msg">We believed in you — just like you believed in us. You showed up every day with patience we didn't always deserve. That's not nothing. That's everything.</p>
+            </div>
+          </div>
+          <span class="env-hint">tap to open</span>
+        </div>
+      </div>
+
+      <div class="envelope" id="ow2">
+        <div class="env-box">
+          <div class="env-back"></div>
+          <div class="env-side-right"></div>
+          <div class="env-flap">
+            <div class="env-seal">✨</div>
+          </div>
+          <div class="env-letter">
+            <p class="ow-title">Open when you feel unappreciated.</p>
+            <div class="env-content">
+              <p class="ow-msg">Your short stay left a long mark. The brevity wasn't a limitation — it was a reminder that impact doesn't need time. It needs intention. And you had that.</p>
+            </div>
+          </div>
+          <span class="env-hint">tap to open</span>
+        </div>
+      </div>
+
+      <div class="envelope" id="ow3">
+        <div class="env-box">
+          <div class="env-back"></div>
+          <div class="env-side-right"></div>
+          <div class="env-flap">
+            <div class="env-seal">🌷</div>
+          </div>
+          <div class="env-letter">
+            <p class="ow-title">Open when you wonder if you made a difference.</p>
+            <div class="env-content">
+              <p class="ow-msg">You did. We are proof. We speak more carefully now. We write with more thought. We correct each other the way you corrected us — with care, not cruelty.</p>
+            </div>
+          </div>
+          <span class="env-hint">tap to open</span>
+        </div>
+      </div>
+
+      <div class="envelope" id="ow4">
+        <div class="env-box">
+          <div class="env-back"></div>
+          <div class="env-side-right"></div>
+          <div class="env-flap">
+            <div class="env-seal">❤️</div>
+          </div>
+          <div class="env-letter">
+            <p class="ow-title">Open when you miss teaching us.</p>
+            <div class="env-content">
+              <p class="ow-msg">We will always carry your lessons forward. And when we one day pass something on to others — a skill, a word, a way of thinking — some of that will be yours.</p>
+            </div>
+          </div>
+          <span class="env-hint">tap to open</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="fancy"/>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     COLLECTIVE PROMISE
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="sec" id="promise-section">
+  <div class="sec-inner" style="text-align:center">
+    <span class="sec-label" id="promise-lbl">our promise to you</span>
+    <h2 class="sec-title" id="promise-title" style="text-align:center">We Will</h2>
+    <p class="promise-text" id="pt0">Remember that <em>words have weight</em>.</p>
+    <p class="promise-text" id="pt1">Speak with the confidence you <em>gave us room</em> to find.</p>
+    <p class="promise-text" id="pt2">Correct others the way you corrected us — <em>with kindness</em>.</p>
+    <p class="promise-text" id="pt3">Carry your lessons into every room we enter.</p>
+    <p class="promise-text" id="pt4">Make you <em>proud</em>.</p>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     MOUNTAIN / SYMBOLIC
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="mountain-section">
+  <div class="mtn-bg"></div>
+  <div id="mtn-stars"></div>
+
+  <div class="mtn-svg">
+    <svg viewBox="0 0 1400 500" preserveAspectRatio="none" width="100%" height="100%">
+      <path d="M0,500 L0,330 L175,195 L360,275 L550,150 L740,240 L940,135 L1140,225 L1330,165 L1400,195 L1400,500 Z" fill="#1a2d55" opacity=".5"/>
+      <path d="M0,500 L0,380 L200,265 L410,335 L650,210 L860,305 L1100,220 L1300,295 L1400,265 L1400,500 Z" fill="#0f1d35" opacity=".75"/>
+      <path d="M0,500 L0,430 L165,345 L380,405 L620,300 L830,390 L1070,315 L1280,385 L1400,355 L1400,500 Z" fill="#0b1529" opacity="1"/>
+
+      <!-- Stickman at summit (mid peak ~550,150) -->
+      <g id="mtn-stickman" opacity="0" transform="translate(550,150)">
+        <circle cy="-20" r="9" stroke="#f2a7b8" stroke-width="2" fill="none"/>
+        <line y1="-11" y2="8" stroke="#f2a7b8" stroke-width="2"/>
+        <!-- arms raised in celebration -->
+        <line x1="0" y1="-4" x2="-14" y2="-14" stroke="#f2a7b8" stroke-width="2"/>
+        <line x1="0" y1="-4" x2="14" y2="-14" stroke="#f2a7b8" stroke-width="2"/>
+        <line x1="0" y1="8" x2="-9" y2="22" stroke="#f2a7b8" stroke-width="2"/>
+        <line x1="0" y1="8" x2="9" y2="22" stroke="#f2a7b8" stroke-width="2"/>
+        <!-- tiny flag -->
+        <line x1="0" y1="-29" x2="0" y2="-45" stroke="#f2a7b8" stroke-width="1.5"/>
+        <path d="M0,-45 L14,-40 L0,-35 Z" fill="#f2a7b8" opacity=".8"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="mtn-content">
+    <p class="mtn-line-1" id="mtn1">Because of you, we are not afraid of the climb anymore.</p>
+    <p class="mtn-line-2" id="mtn2">Thank you for being part of our journey.</p>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     CLOSING
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="closing-section">
+  <div class="closing-inner">
+    <p class="closing-p" id="cl-p">
+      We may have only had you for a short time,<br/>
+      but the impact you made will stay with us for years.
+    </p>
+    <div class="closing-script" id="cl-script">
+      You will always be<br/>part of our story.
+    </div>
+    <a href="farewell.html" class="farewell-btn" id="cl-btn">
+      Continue to Our Farewell Message &nbsp;→
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>Made with ❤️ for Ma'am Rizzalyn Aliwalas</p>
+  <p style="margin-top:.5rem;font-family:'Sacramento',cursive;font-size:1.3rem;color:var(--pink);opacity:.8">Made by Athan</p>
+</footer>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━
+     SCRIPTS
+━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ──────────────────────────
+   LOADING SCREEN
+────────────────────────── */
+(function(){
+  const canvas = document.getElementById('loader-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const W = canvas.width, H = canvas.height;
+
+  // Stars
+  const stars = Array.from({length: 120}, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H * .55,
+    r: Math.random() * 1.4 + .3,
+    flicker: Math.random() * Math.PI * 2,
+    speed: .012 + Math.random() * .018
+  }));
+
+  // Mist particles
+  const mist = Array.from({length: 18}, (_, i) => ({
+    x: (i / 18) * W * 1.4 - W * .2,
+    y: H * (.52 + Math.random() * .12),
+    w: 200 + Math.random() * 350,
+    h: 40 + Math.random() * 60,
+    alpha: .04 + Math.random() * .06,
+    speed: .18 + Math.random() * .25
+  }));
+
+  // The path the figure walks along the ridge
+  const ridgeY = (x) => {
+    // A gentle ridge silhouette curve — summit around 58% across
+    const t = x / W;
+    return H * (.62 - .18 * Math.exp(-Math.pow((t - .58) * 5, 2))
+                    - .06 * Math.exp(-Math.pow((t - .3) * 7, 2))
+                    + .04 * (t - .5));
+  };
+
+  let progress = 0;
+  let frame = 0;
+  const bar = document.getElementById('loader-bar');
+
+  function drawSilhouetteFigure(x, y, facing) {
+    // Draw a proper human silhouette walking — solid filled shape
+    // facing: 1 = right, -1 = left
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(facing, 1);
+
+    // Walking cycle based on frame
+    const cycle = (frame * .04) % (Math.PI * 2);
+    const legSwing = Math.sin(cycle) * 7;
+    const armSwing = Math.sin(cycle + Math.PI) * 6;
+    const bodyBob = Math.abs(Math.sin(cycle)) * 1.5;
+
+    ctx.fillStyle = 'rgba(8, 14, 28, 0.92)';
+    ctx.strokeStyle = 'rgba(242,167,184,0.0)';
+
+    const scale = 1.0;
+    const s = 11 * scale;
+
+    // Head
+    ctx.beginPath();
+    ctx.ellipse(0, -s * 3.6 - bodyBob, s * .55, s * .65, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Torso — slightly tapered
+    ctx.beginPath();
+    ctx.moveTo(-s * .42, -s * 2.9 - bodyBob);
+    ctx.lineTo( s * .42, -s * 2.9 - bodyBob);
+    ctx.lineTo( s * .35, -s * 1.1);
+    ctx.lineTo(-s * .35, -s * 1.1);
+    ctx.closePath();
+    ctx.fill();
+
+    // Backpack (small rectangle on back)
+    ctx.beginPath();
+    ctx.roundRect(-s * .6, -s * 2.7 - bodyBob, s * .3, s * 1.1, 3);
+    ctx.fill();
+
+    // Left leg
+    ctx.save();
+    ctx.translate(0, -s * 1.1);
+    ctx.beginPath();
+    ctx.moveTo(-s * .18, 0);
+    ctx.lineTo(-s * .18 - legSwing * .5, s * 1.0);
+    ctx.lineTo(-s * .12 - legSwing * .5, s * 1.0);
+    ctx.lineTo(s * .01, s * .1);
+    ctx.closePath();
+    ctx.fill();
+    // Left lower leg
+    ctx.beginPath();
+    ctx.moveTo(-s * .18 - legSwing * .5, s * 1.0);
+    ctx.lineTo(-s * .25 - legSwing * .7, s * 2.0);
+    ctx.lineTo(-s * .1 - legSwing * .7, s * 2.0);
+    ctx.lineTo(-s * .12 - legSwing * .5, s * 1.0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+    // Right leg
+    ctx.save();
+    ctx.translate(0, -s * 1.1);
+    ctx.beginPath();
+    ctx.moveTo(s * .18, 0);
+    ctx.lineTo(s * .18 + legSwing * .5, s * 1.0);
+    ctx.lineTo(s * .12 + legSwing * .5, s * 1.0);
+    ctx.lineTo(-s * .01, s * .1);
+    ctx.closePath();
+    ctx.fill();
+    // Right lower leg
+    ctx.beginPath();
+    ctx.moveTo(s * .18 + legSwing * .5, s * 1.0);
+    ctx.lineTo(s * .25 + legSwing * .7, s * 2.0);
+    ctx.lineTo(s * .1 + legSwing * .7, s * 2.0);
+    ctx.lineTo(s * .12 + legSwing * .5, s * 1.0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+    // Left arm
+    ctx.save();
+    ctx.translate(-s * .35, -s * 2.7 - bodyBob);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(-s * .2 - armSwing * .5, s * .85);
+    ctx.lineTo(-s * .08 - armSwing * .5, s * .85);
+    ctx.lineTo(s * .1, s * .1);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+    // Right arm
+    ctx.save();
+    ctx.translate(s * .35, -s * 2.7 - bodyBob);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(s * .2 + armSwing * .5, s * .85);
+    ctx.lineTo(s * .08 + armSwing * .5, s * .85);
+    ctx.lineTo(-s * .1, s * .1);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+    ctx.restore();
+  }
+
+  function drawFrame() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+
+    // Sky gradient — warms as progress increases
+    const warmth = progress;
+    const skyGrad = ctx.createLinearGradient(0, 0, 0, H);
+    skyGrad.addColorStop(0, `rgba(8,14,28,1)`);
+    skyGrad.addColorStop(.45, `rgba(${12 + warmth * 20}, ${18 + warmth * 12}, ${40 + warmth * 5}, 1)`);
+    skyGrad.addColorStop(1, `rgba(${18 + warmth * 35}, ${22 + warmth * 18}, ${50 + warmth * 10}, 1)`);
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Sunrise glow at horizon (intensifies with progress)
+    if (progress > .2) {
+      const glowAlpha = (progress - .2) * .35;
+      const sumX = W * .58, sumY = H * .42;
+      const glow = ctx.createRadialGradient(sumX, sumY, 0, sumX, sumY, W * .45);
+      glow.addColorStop(0, `rgba(217, 100, 120, ${glowAlpha})`);
+      glow.addColorStop(.4, `rgba(140, 60, 90, ${glowAlpha * .4})`);
+      glow.addColorStop(1, 'transparent');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    // Stars — twinkle and fade out as progress increases
+    const starAlpha = Math.max(0, 1 - progress * 1.2);
+    stars.forEach(s => {
+      s.flicker += s.speed;
+      const a = (.4 + Math.sin(s.flicker) * .4) * starAlpha;
+      if (a <= 0) return;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${a})`;
+      ctx.fill();
+    });
+
+    // Far mountain range (distant, faint)
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    const farPts = [
+      [0, H*.72],[W*.08,H*.58],[W*.18,H*.63],[W*.28,H*.50],[W*.38,H*.56],
+      [W*.48,H*.44],[W*.58,H*.60],[W*.68,H*.52],[W*.80,H*.57],[W*.90,H*.48],[W,H*.55],[W,H]
+    ];
+    farPts.forEach(([x,y]) => ctx.lineTo(x, y));
+    ctx.closePath();
+    ctx.fillStyle = `rgba(20,35,65,.55)`;
+    ctx.fill();
+
+    // Mid mountains
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    const midPts = [
+      [0, H*.80],[W*.07,H*.70],[W*.16,H*.74],[W*.26,H*.62],[W*.36,H*.68],
+      [W*.46,H*.56],[W*.54,H*.62],[W*.62,H*.58],[W*.72,H*.64],[W*.84,H*.60],[W*.93,H*.66],[W,H*.63],[W,H]
+    ];
+    midPts.forEach(([x,y]) => ctx.lineTo(x, y));
+    ctx.closePath();
+    ctx.fillStyle = `rgba(13,24,48,.75)`;
+    ctx.fill();
+
+    // Mist layers
+    mist.forEach(m => {
+      m.x += m.speed;
+      if (m.x > W + m.w) m.x = -m.w;
+      const mg = ctx.createRadialGradient(m.x + m.w/2, m.y, 0, m.x + m.w/2, m.y, m.w * .7);
+      mg.addColorStop(0, `rgba(180,200,240,${m.alpha})`);
+      mg.addColorStop(1, 'transparent');
+      ctx.fillStyle = mg;
+      ctx.beginPath();
+      ctx.ellipse(m.x + m.w/2, m.y, m.w * .7, m.h * .5, 0, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // Front ridge (the one the figure walks on)
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    for (let x = 0; x <= W; x += 4) ctx.lineTo(x, ridgeY(x));
+    ctx.lineTo(W, H);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(8,14,28,.98)`;
+    ctx.fill();
+
+    // Ridge highlight edge (thin glowing line)
+    ctx.beginPath();
+    for (let x = 0; x <= W; x += 4) {
+      x === 0 ? ctx.moveTo(x, ridgeY(x)) : ctx.lineTo(x, ridgeY(x));
+    }
+    const ridgeGrad = ctx.createLinearGradient(0, 0, W, 0);
+    ridgeGrad.addColorStop(0, 'transparent');
+    ridgeGrad.addColorStop(.3, 'rgba(242,167,184,.06)');
+    ridgeGrad.addColorStop(.58, `rgba(242,167,184,${.12 + progress * .2})`);
+    ridgeGrad.addColorStop(.8, 'rgba(242,167,184,.05)');
+    ridgeGrad.addColorStop(1, 'transparent');
+    ctx.strokeStyle = ridgeGrad;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Figure position — walks from left to summit
+    const figX = W * (.08 + progress * .5);
+    const figY = ridgeY(figX);
+    drawSilhouetteFigure(figX, figY, 1);
+
+    // At summit (>95%) — figure stops, small pulse glow beneath feet
+    if (progress > .95) {
+      const gA = (progress - .95) * 20 * .3;
+      const fg = ctx.createRadialGradient(figX, figY + 2, 0, figX, figY + 2, 22);
+      fg.addColorStop(0, `rgba(242,167,184,${gA})`);
+      fg.addColorStop(1, 'transparent');
+      ctx.fillStyle = fg;
+      ctx.beginPath(); ctx.arc(figX, figY + 2, 22, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  // Fade in quote
+  setTimeout(() => gsap.to('#loader-quote', {opacity:1, duration:1.4, ease:'power2.out'}), 500);
+
+  let prog = 0;
+  const interval = setInterval(() => {
+    prog += Math.random() * 1.8 + .6;
+    if (prog >= 100) prog = 100;
+    bar.style.width = prog + '%';
+    progress = prog / 100;
+    drawFrame();
+    if (prog >= 100) {
+      clearInterval(interval);
+      // Keep rendering the final scene for a beat
+      let finalFrames = 0;
+      const finalLoop = setInterval(() => {
+        drawFrame();
+        if (++finalFrames > 40) {
+          clearInterval(finalLoop);
+          setTimeout(() => {
+            gsap.to('#loader', {
+              opacity: 0, duration: 1.2, ease:'power2.inOut',
+              onComplete: () => {
+                document.getElementById('loader').style.display = 'none';
+                document.querySelectorAll('.amb-blob').forEach(b => b.style.opacity = '1');
+                initHero();
+              }
+            });
+          }, 400);
+        }
+      }, 30);
+    }
+  }, 50);
+})();
+
+/* ──────────────────────────
+   HERO
+────────────────────────── */
+function initHero() {
+  gsap.timeline()
+    .to('#h-ey',    {opacity:1, y:0, duration:1.2, ease:'power3.out'}, .2)
+    .to('#h-title', {opacity:1, y:0, duration:1.3, ease:'power3.out'}, .55)
+    .to('#h-name',  {opacity:1, y:0, duration:1.2, ease:'power3.out'}, .95)
+    .to('#h-sub',   {opacity:1, duration:1.1, ease:'power2.out'}, 1.35)
+    .to('#scroll-hint', {opacity:1, duration:.8}, 2.1);
+}
+
+/* ──────────────────────────
+   MOUNTAIN STARS
+────────────────────────── */
+(function(){
+  const wrap = document.getElementById('mtn-stars');
+  for (let i = 0; i < 55; i++) {
+    const s = document.createElement('div');
+    s.className = 'mtn-star';
+    const sz = Math.random() * 2 + 1;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*50}%;left:${Math.random()*100}%;--d:${2+Math.random()*3}s;--dd:${Math.random()*4}s`;
+    wrap.appendChild(s);
+  }
+})();
+
+/* ──────────────────────────
+   SCROLL ANIMATIONS
+────────────────────────── */
+function onEnter(trigger, fn, start='top 78%') {
+  ScrollTrigger.create({ trigger, start, once:true, onEnter: fn });
+}
+
+// WHO
+onEnter('#who-section', () => {
+  gsap.to('#who-lbl',    {opacity:1, duration:.9, ease:'power2.out'});
+  gsap.to('#who-title',  {opacity:1, y:0, duration:1, delay:.15, ease:'power3.out'});
+  for (let i = 0; i <= 5; i++) {
+    gsap.to(`#wl${i}`, {opacity:1, x:0, duration:.9, delay:.3+i*.2, ease:'power3.out'});
+  }
+  gsap.to('#who-script', {opacity:1, duration:1.2, delay:1.7, ease:'power2.out'});
+});
+
+// TRAITS
+onEnter('#traits-section', () => {
+  gsap.to('#traits-lbl',   {opacity:1, duration:.9});
+  gsap.to('#traits-title', {opacity:1, y:0, duration:1, delay:.15, ease:'power3.out'});
+  for (let i = 0; i <= 5; i++) {
+    gsap.to(`#tc${i}`, {opacity:1, y:0, duration:.8, delay:.25+i*.12, ease:'power3.out'});
+  }
+});
+
+// LETTER
+onEnter('#letter-section', () => {
+  gsap.to('#letter-lbl',   {opacity:1, duration:.9});
+  gsap.to('#letter-title', {opacity:1, y:0, duration:1, delay:.1, ease:'power3.out'});
+  [0,1,2,3,4].forEach(i => gsap.to(`#lp${i}`, {opacity:1, y:0, duration:.9, delay:.3+i*.25, ease:'power3.out'}));
+  gsap.to('#letter-script', {opacity:1, duration:1.2, delay:1.7, ease:'power2.out'});
+});
+
+// TIMELINE
+onEnter('#timeline-section', () => {
+  gsap.to('#timeline-lbl',   {opacity:1, duration:.9});
+  gsap.to('#timeline-title', {opacity:1, y:0, duration:1, delay:.1, ease:'power3.out'});
+  [0,1,2,3,4].forEach(i => gsap.to(`#ti${i}`, {opacity:1, x:0, duration:.9, delay:.3+i*.22, ease:'power3.out'}));
+});
+
+// WORDS
+onEnter('#words-section', () => {
+  gsap.to('#words-lbl',   {opacity:1, duration:.9});
+  gsap.to('#words-title', {opacity:1, y:0, duration:1, delay:.1, ease:'power3.out'});
+  [0,1,2,3,4,5].forEach(i => gsap.to(`#wc${i}`, {opacity:1, scale:1, duration:.85, delay:.2+i*.12, ease:'power3.out'}));
+});
+
+// OPEN WHEN — envelopes
+onEnter('#open-when-section', () => {
+  gsap.to('#ow-lbl',   {opacity:1, duration:.9});
+  gsap.to('#ow-title', {opacity:1, y:0, duration:1, delay:.1, ease:'power3.out'});
+  [0,1,2,3,4].forEach(i => gsap.to(`#ow${i}`, {opacity:1, y:0, duration:.9, delay:.25+i*.18, ease:'power3.out'}));
+});
+
+// Envelope click-to-open
+document.querySelectorAll('.envelope').forEach(env => {
+  env.addEventListener('click', () => {
+    const wasOpen = env.classList.contains('opened');
+    // Close all first
+    document.querySelectorAll('.envelope.opened').forEach(e => e.classList.remove('opened'));
+    if (!wasOpen) env.classList.add('opened');
+  });
+});
+
+// PROMISE
+onEnter('#promise-section', () => {
+  gsap.to('#promise-lbl',   {opacity:1, duration:.9});
+  gsap.to('#promise-title', {opacity:1, y:0, duration:1, delay:.1, ease:'power3.out'});
+  [0,1,2,3,4].forEach(i => gsap.to(`#pt${i}`, {opacity:1, y:0, duration:1, delay:.3+i*.28, ease:'power3.out'}));
+});
+
+// MOUNTAIN
+onEnter('#mountain-section', () => {
+  gsap.to('#mtn-stickman', {opacity:1, duration:2.5, delay:.5, ease:'power2.out'});
+  gsap.to('#mtn1', {opacity:1, y:0, duration:1.3, delay:.8, ease:'power3.out'});
+  gsap.to('#mtn2', {opacity:1, y:0, duration:1.3, delay:1.6, ease:'power3.out'});
+
+  // gentle flag wave
+  gsap.to('#mtn-stickman', {
+    attr:{transform:'translate(550,148)'}, duration:1.8,
+    ease:'power1.inOut', repeat:-1, yoyo:true
+  });
+}, 'top 65%');
+
+// CLOSING
+onEnter('#closing-section', () => {
+  gsap.to('#cl-p',      {opacity:1, y:0, duration:1.4, ease:'power3.out'});
+  gsap.to('#cl-script', {opacity:1, y:0, duration:1.6, delay:.9, ease:'power3.out'});
+  gsap.to('#cl-btn',    {opacity:1, duration:1.2, delay:2, ease:'power2.out'});
+}, 'top 70%');
+</script>
+</body>
+</html>
